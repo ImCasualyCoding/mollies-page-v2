@@ -1,0 +1,897 @@
+/* ==========================================================================
+   MoveRx Main Stylesheet (v2)
+   Description: Premium, mobile-first, and highly-commented design layout
+   ========================================================================== */
+
+/* 1. RESET & BASE ELEMENTS
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--deep-palm);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.6;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Accessible outline indicators for keyboard navigators */
+a, button, input, textarea {
+    font-family: inherit;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color var(--transition-fast);
+}
+
+a:focus-visible, 
+button:focus-visible {
+    outline: 3px solid var(--sun-accent);
+    outline-offset: 4px;
+}
+
+/* Layout Container */
+.container {
+    width: 87.5%;
+    max-width: 1050px;
+    margin: 0 auto;
+}
+
+/* 2. REUSABLE UI COMPONENTS (Buttons, Badges)
+   ========================================================================== */
+.btn-primary {
+    display: inline-block;
+    background-color: var(--ocean-teal);
+    color: var(--surface-color) !important;
+    border-radius: var(--border-radius-pill);
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 16px 36px;
+    font-size: 15px;
+    border: 2px solid var(--ocean-teal);
+    box-shadow: 0 8px 20px rgba(18, 91, 80, 0.2);
+    transition: var(--transition-smooth);
+    cursor: pointer;
+}
+
+.btn-primary-small {
+    display: inline-block;
+    background-color: var(--ocean-teal);
+    color: var(--surface-color) !important;
+    border-radius: var(--border-radius-pill);
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 12px 24px;
+    font-size: 13px;
+    border: 2px solid var(--ocean-teal);
+    transition: var(--transition-smooth);
+    cursor: pointer;
+}
+
+.btn-primary:hover, 
+.btn-primary-small:hover {
+    background-color: var(--deep-palm);
+    border-color: var(--deep-palm);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(8, 61, 53, 0.28);
+}
+
+.btn-primary:active, 
+.btn-primary-small:active {
+    transform: translateY(0);
+}
+
+/* 3. STICKY NAVIGATION HEADER
+   ========================================================================== */
+.nav-container {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+    padding: 0 20px;
+}
+
+/* Glassmorphism navigation pill */
+.nav-pill {
+    width: 100%;
+    max-width: 1050px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: var(--nav-shadow);
+    border-radius: var(--border-radius-pill);
+    padding: 12px 24px 12px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--nav-border);
+    transition: background-color var(--transition-smooth), border var(--transition-smooth);
+}
+
+.nav-pill:hover {
+    background: var(--nav-bg-hover);
+    border-color: rgba(18, 91, 80, 0.15);
+}
+
+/* Logo brand styling */
+.logo {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.logo-move {
+    color: var(--ocean-teal);
+    font-style: italic;
+}
+
+.logo-rx {
+    color: var(--sun-accent);
+}
+
+/* Nav Links List */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
+.nav-links a {
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--deep-palm);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    position: relative;
+    padding: 6px 0;
+    transition: color var(--transition-fast);
+}
+
+/* Premium Gold Underline Animation on Hover */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: -1px;
+    left: 0;
+    background-color: var(--sun-accent);
+    transition: width var(--transition-smooth);
+    border-radius: 2px;
+}
+
+.nav-links a:hover {
+    color: var(--ocean-teal);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Mobile Navigation Controls */
+.mobile-only {
+    display: none;
+}
+
+.mobile-toggle-checkbox {
+    display: none;
+}
+
+.mobile-toggle-label {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 6px;
+    padding: 10px 4px;
+    z-index: 1001;
+}
+
+/* Hamburger bars */
+.mobile-toggle-label span {
+    display: block;
+    width: 24px;
+    height: 2.2px;
+    background-color: var(--deep-palm);
+    border-radius: 2px;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                opacity 0.2s ease;
+}
+
+/* Desktop CTA */
+.desktop-only {
+    display: block;
+}
+
+/* 4. HERO SECTION LAYOUT (Full Background Image)
+   ========================================================================== */
+.hero-section {
+    padding: 200px 0 140px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+    text-align: center;
+}
+
+/* Background image wrapper with custom opacity */
+.hero-bg-image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 30%;
+    background-repeat: no-repeat;
+    opacity: 0.82; /* Increased opacity by another +30% for high image visibility */
+    z-index: -2;
+    transition: opacity 0.5s ease;
+}
+
+/* Linear color gradient legibility mask */
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(248, 246, 240, 0.4) 0%,
+        rgba(248, 246, 240, 0.8) 60%,
+        rgba(248, 246, 240, 0.98) 100%
+    );
+    z-index: -1;
+}
+
+/* Ambient background glows (sit between mask and text) */
+.hero-glow-teal {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: min(500px, 80vw);
+    height: min(500px, 80vw);
+    background: rgba(18, 91, 80, 0.12);
+    filter: blur(120px);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.hero-glow-gold {
+    position: absolute;
+    bottom: 10%;
+    right: -10%;
+    width: min(450px, 70vw);
+    height: min(450px, 70vw);
+    background: rgba(229, 176, 92, 0.12);
+    filter: blur(120px);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Centered content wrapper */
+.hero-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px; /* Optimal line length for typography reading */
+    z-index: 2;
+}
+
+.pill-badge {
+    display: inline-block;
+    color: var(--deep-palm);
+    font-size: 12.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 8px 24px;
+    border-radius: var(--border-radius-pill);
+    margin-bottom: 24px;
+    background: var(--sun-accent);
+    box-shadow: 0 6px 18px rgba(229, 176, 92, 0.35);
+}
+
+.hero-content-wrapper h1 {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 6vw, 68px);
+    line-height: 1.15;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--deep-palm);
+}
+
+.hero-description {
+    font-family: var(--font-body);
+    font-size: clamp(17px, 2.2vw, 20px);
+    line-height: 1.65;
+    color: var(--text-secondary);
+    margin-bottom: 44px;
+    max-width: 650px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.btn-secondary {
+    display: inline-block;
+    color: var(--ocean-teal) !important;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 14px 28px;
+    font-size: 13.5px;
+    border-radius: var(--border-radius-pill);
+    border: 2px solid rgba(18, 91, 80, 0.2);
+    background: transparent;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    border-color: var(--ocean-teal);
+    background-color: rgba(18, 91, 80, 0.05);
+    transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+/* 5. SCROLL-ANIMATED TROPICAL PALM LEAVES
+   ========================================================================== */
+.scroll-leaf-container {
+    position: absolute;
+    width: 300px;
+    height: 450px;
+    z-index: 1; /* Sits below interactive items but above background glows */
+    pointer-events: none; /* Allows click-through interaction */
+    opacity: 0;
+    transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+    will-change: transform, opacity;
+}
+
+.leaf-left {
+    left: -140px;
+    transform: translateX(-65px) rotate(10deg);
+    transform-origin: 50% 90%;
+}
+
+.leaf-right {
+    right: -140px;
+    transform: translateX(65px) rotate(-10deg);
+    transform-origin: 50% 90%;
+}
+
+.scroll-leaf-svg {
+    width: 100%;
+    height: 100%;
+    color: var(--ocean-teal);
+    opacity: 0.85;
+    filter: drop-shadow(0 10px 20px rgba(8, 61, 53, 0.08));
+}
+
+/* Override dimensions for specific tropical shapes to avoid text collision */
+.scroll-leaf-container.type-palm {
+    width: 220px;
+    height: 330px;
+}
+
+.scroll-leaf-container.type-sand {
+    width: 240px;
+    height: 160px;
+}
+
+.scroll-leaf-container.type-sand.leaf-left {
+    left: -110px;
+}
+
+/* 5. SUCCESS STORIES SHOWCASE (Dynamic Fling Carousel)
+   ========================================================================== */
+.success-section {
+    padding: 120px 0;
+    background-color: transparent;
+    position: relative;
+    z-index: 5;
+    text-align: center;
+}
+
+.section-header {
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.section-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5.2vw, 48px);
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--deep-palm);
+}
+
+.section-subtext {
+    font-family: var(--font-body);
+    font-size: clamp(17px, 2.2vw, 21px);
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+/* Showcase layout containing side navigation buttons and card mount */
+.showcase-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 800px;
+    margin: 0 auto;
+    gap: 40px;
+    padding: 20px 0;
+}
+
+.carousel-btn {
+    background: var(--surface-color);
+    color: var(--ocean-teal);
+    border: 2px solid var(--ocean-teal);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(18, 91, 80, 0.06);
+    transition: var(--transition-smooth);
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.carousel-btn:hover {
+    background: var(--ocean-teal);
+    color: var(--surface-color);
+    transform: scale(1.1);
+    box-shadow: 0 12px 28px rgba(18, 91, 80, 0.2);
+}
+
+.carousel-btn:active {
+    transform: scale(0.95);
+}
+
+/* Stable card mount to prevent page reflows */
+.card-mount {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    min-height: 590px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: visible; /* Let card swing out of bounds dynamically */
+}
+
+/* The Success Card */
+.success-card {
+    width: 100%;
+    background: var(--surface-color);
+    border-radius: var(--border-radius-card);
+    padding: 24px;
+    box-shadow: 0 20px 50px rgba(8, 61, 53, 0.08);
+    border: 1px solid rgba(18, 91, 80, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth);
+    will-change: transform, opacity;
+}
+
+.success-card:hover {
+    border-color: rgba(18, 91, 80, 0.16);
+    box-shadow: 0 28px 65px rgba(8, 61, 53, 0.13);
+}
+
+/* Interactive Image Transition box */
+.image-transition-box {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--border-radius-img);
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    background: var(--bg-color);
+}
+
+.image-transition-box img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.img-before {
+    z-index: 1;
+    opacity: 0;
+    transform: scale(1.04);
+}
+
+.img-after {
+    z-index: 2;
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Toggle crossfade styling */
+.image-transition-box.show-before .img-before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.image-transition-box.show-before .img-after {
+    opacity: 0;
+    transform: scale(0.96);
+}
+
+.status-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    padding: 6px 16px;
+    border-radius: var(--border-radius-pill);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    transition: opacity var(--transition-smooth);
+}
+
+.badge-before {
+    background: var(--surface-color);
+    color: var(--deep-palm);
+    z-index: 3;
+    opacity: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.badge-after {
+    background: var(--ocean-teal);
+    color: var(--surface-color);
+    z-index: 4;
+    opacity: 1;
+    box-shadow: 0 4px 12px rgba(18, 91, 80, 0.2);
+}
+
+.image-transition-box.show-before .badge-before {
+    opacity: 1;
+}
+
+.image-transition-box.show-before .badge-after {
+    opacity: 0;
+}
+
+/* User interaction instruction badge */
+.interaction-hint {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    background: rgba(8, 61, 53, 0.85);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: var(--border-radius-pill);
+    font-size: 12.5px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 5;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transition: background-color var(--transition-fast);
+}
+
+.image-transition-box:hover .interaction-hint {
+    background: rgba(8, 61, 53, 0.95);
+}
+
+/* Typography styles for success card text info */
+.service-info {
+    text-align: left;
+    padding: 4px 4px 0;
+}
+
+.service-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--deep-palm);
+    margin-bottom: 4px;
+}
+
+.client-name {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--sun-accent);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 12px;
+}
+
+.service-desc {
+    font-family: var(--font-body);
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+/* Tactile Fling transition animations */
+.fling-out-left {
+    animation: flingOutLeft 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.fling-out-right {
+    animation: flingOutRight 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.fling-in-left {
+    animation: flingInLeft 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.fling-in-right {
+    animation: flingInRight 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes flingOutLeft {
+    0% {
+        opacity: 1;
+        transform: translateX(0) rotate(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-140%) rotate(-15deg) scale(0.9);
+    }
+}
+
+@keyframes flingOutRight {
+    0% {
+        opacity: 1;
+        transform: translateX(0) rotate(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(140%) rotate(15deg) scale(0.9);
+    }
+}
+
+@keyframes flingInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-140%) rotate(-15deg) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) rotate(0) scale(1);
+    }
+}
+
+@keyframes flingInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(140%) rotate(15deg) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) rotate(0) scale(1);
+    }
+}
+
+/* 6. VISUAL ANIMATIONS
+   ========================================================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeInUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* 7. RESPONSIVE MEDIA QUERIES (Mobile and Tablet Layouts)
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* Hide leaves on small mobile viewports to reduce visual clutter */
+    .scroll-leaf-container {
+        display: none;
+    }
+}
+
+@media (max-width: 850px) {
+    .mobile-toggle-label {
+        display: flex;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-only {
+        display: block;
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    /* Change navbar pill behavior to support dropdown panel */
+    .nav-pill {
+        padding: 12px 24px;
+        border-radius: 28px;
+    }
+
+    /* Mobile drawer menu styled cleanly */
+    .nav-links {
+        position: absolute;
+        top: 80px;
+        left: 20px;
+        right: 20px;
+        background: var(--surface-color);
+        border: 1px solid var(--nav-border);
+        border-radius: 20px;
+        flex-direction: column;
+        gap: 8px;
+        padding: 24px;
+        box-shadow: 0 16px 40px rgba(8, 61, 53, 0.16);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-12px);
+        transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+                    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+                    visibility 0.3s;
+        z-index: 999;
+    }
+
+    .nav-links a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 14px 20px;
+        font-size: 15px;
+        border-radius: 10px;
+        letter-spacing: 1.5px;
+    }
+
+    .nav-links a::after {
+        display: none; /* Hide gold underline hover bar on mobile */
+    }
+
+    .nav-links a:hover {
+        background-color: var(--bg-color);
+        color: var(--ocean-teal);
+    }
+
+    /* Show links drawer and animate hamburger bars when checked */
+    .mobile-toggle-checkbox:checked ~ .nav-links {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .mobile-toggle-checkbox:checked ~ .mobile-toggle-label span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .mobile-toggle-checkbox:checked ~ .mobile-toggle-label span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .mobile-toggle-checkbox:checked ~ .mobile-toggle-label span:nth-child(3) {
+        transform: translateY(-8.2px) rotate(-45deg);
+    }
+
+    /* Hero section mobile responsive tweaks */
+    .hero-section {
+        padding: 140px 0 80px;
+        min-height: auto;
+    }
+    
+    .hero-bg-image {
+        opacity: 0.75; /* Increased opacity by another +30% for higher mobile visibility */
+    }
+    
+    .hero-description {
+        margin-bottom: 30px;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .hero-actions a {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    /* Success Stories mobile responsive tweaks */
+    .success-section {
+        padding: 80px 0;
+    }
+    
+    .showcase-container {
+        gap: 16px;
+    }
+    
+    .carousel-btn {
+        position: absolute;
+        top: 32%;
+        width: 48px;
+        height: 48px;
+        background: rgba(255, 255, 255, 0.95);
+        border-color: rgba(18, 91, 80, 0.25);
+        box-shadow: 0 6px 20px rgba(8, 61, 53, 0.12);
+    }
+    
+    .prev-btn {
+        left: -12px;
+    }
+    
+    .next-btn {
+        right: -12px;
+    }
+    
+    .card-mount {
+        min-height: 525px;
+        max-width: 100%;
+    }
+    
+    .success-card {
+        padding: 18px;
+    }
+    
+    .service-title {
+        font-size: 22px;
+    }
+}
