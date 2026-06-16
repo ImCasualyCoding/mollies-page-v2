@@ -744,9 +744,32 @@ button:focus-visible {
 /* 7. RESPONSIVE MEDIA QUERIES (Mobile and Tablet Layouts)
    ========================================================================== */
 @media (max-width: 768px) {
-    /* Hide leaves on small mobile viewports to reduce visual clutter */
+    /* Scale down and reposition leaves on mobile instead of hiding them */
     .scroll-leaf-container {
-        display: none;
+        width: 150px;
+        height: 225px;
+    }
+    
+    .leaf-left {
+        left: -95px;
+    }
+    
+    .leaf-right {
+        right: -95px;
+    }
+
+    .scroll-leaf-container.type-palm {
+        width: 110px;
+        height: 165px;
+    }
+    
+    .scroll-leaf-container.type-sand {
+        width: 120px;
+        height: 80px;
+    }
+    
+    .scroll-leaf-container.type-sand.leaf-left {
+        left: -75px;
     }
 }
 
