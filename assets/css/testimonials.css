@@ -1,0 +1,195 @@
+/* ==========================================================================
+   MoveRx Testimonials Stylesheet (v2)
+   Description: Styles for the testimonials grid, client testimonial cards,
+                hero section, active page navigation highlights.
+   ========================================================================== */
+
+/* 1. TESTIMONIALS HERO SECTION
+   ========================================================================== */
+.testimonial-hero {
+    position: relative;
+    padding: 200px 0 100px;
+    text-align: center;
+    overflow: hidden;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ambient decorative background glows */
+.testimonial-hero .hero-glow-teal {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: min(450px, 75vw);
+    height: min(450px, 75vw);
+    background: rgba(18, 91, 80, 0.12);
+    filter: blur(100px);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.testimonial-hero .hero-glow-gold {
+    position: absolute;
+    bottom: -10%;
+    right: -10%;
+    width: min(400px, 70vw);
+    height: min(400px, 70vw);
+    background: rgba(229, 176, 92, 0.12);
+    filter: blur(100px);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.testimonial-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    z-index: 2;
+}
+
+.testimonial-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 6vw, 68px);
+    line-height: 1.15;
+    font-weight: 700;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, var(--deep-palm) 0%, var(--ocean-teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.testimonial-hero .hero-subtext {
+    font-family: var(--font-body);
+    font-size: clamp(17px, 2.2vw, 20px);
+    line-height: 1.65;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+/* 2. TESTIMONIALS GRID & CARDS
+   ========================================================================== */
+.testimonials-grid-section {
+    position: relative;
+    padding: 20px 0 120px;
+    z-index: 2;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+}
+
+@media (min-width: 768px) {
+    .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 36px;
+    }
+}
+
+.testimonial-card {
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius-card);
+    padding: 48px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    border: 2px solid transparent;
+    transition: transform var(--transition-smooth), 
+                box-shadow var(--transition-smooth), 
+                border-color var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Premium styled quotation mark watermark */
+.testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: 10px;
+    right: 28px;
+    font-size: 140px;
+    font-family: var(--font-display);
+    color: var(--ocean-teal);
+    opacity: 0.08;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--ocean-teal);
+    box-shadow: 0 20px 40px rgba(18, 91, 80, 0.12);
+}
+
+.testimonial-stars {
+    color: var(--sun-accent);
+    font-size: 19px;
+    letter-spacing: 3px;
+    margin-bottom: 24px;
+}
+
+.testimonial-quote {
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--text-primary);
+    margin-bottom: 40px;
+    flex-grow: 1;
+    letter-spacing: -0.01em;
+    font-weight: 400;
+}
+
+.testimonial-author {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgba(18, 91, 80, 0.10);
+    padding-top: 24px;
+}
+
+.author-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--text-primary);
+}
+
+.author-detail {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+/* 3. ACTIVE NAVIGATION LINK STYLE
+   ========================================================================== */
+.nav-links a.active-link {
+    color: var(--ocean-teal) !important;
+}
+
+.nav-links a.active-link::after {
+    width: 100% !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .testimonial-hero {
+        padding: 160px 0 80px;
+    }
+    
+    .testimonial-card {
+        padding: 32px;
+    }
+    
+    .testimonial-quote {
+        margin-bottom: 28px;
+    }
+}

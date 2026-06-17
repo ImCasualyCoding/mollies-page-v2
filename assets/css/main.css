@@ -1294,8 +1294,7 @@ button:focus-visible {
     }
     
     .card-container-3d {
-        height: auto;
-        min-height: 480px;
+        height: 520px;
     }
     
     .spotlight-split-layout {
