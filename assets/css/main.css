@@ -918,3 +918,405 @@ button:focus-visible {
         font-size: 22px;
     }
 }
+
+/* ==========================================================================
+   8. SITE FOOTER (Green Theme with Business Card & 3D Spotlight Card)
+   ========================================================================== */
+.site-footer-green {
+    background-color: var(--deep-palm);
+    color: var(--bg-color);
+    padding: 100px 0 0;
+    position: relative;
+    z-index: 5;
+    border-top: 3px solid var(--sun-accent);
+    overflow: hidden;
+}
+
+.footer-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 60px;
+    align-items: center;
+    padding-bottom: 80px;
+}
+
+/* 8.1 BUSINESS CARD (LEFT SIDE) */
+.business-card {
+    background: var(--surface-color);
+    color: var(--deep-palm);
+    padding: 40px;
+    border-radius: var(--border-radius-card);
+    box-shadow: 0 24px 55px rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(229, 176, 92, 0.2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.business-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--sun-accent);
+}
+
+.business-card .card-logo {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.business-card .card-logo .logo-move {
+    color: var(--ocean-teal);
+    font-style: italic;
+}
+
+.business-card .card-logo .logo-rx {
+    color: var(--sun-accent);
+}
+
+.business-card h3 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--deep-palm);
+    margin-bottom: 4px;
+}
+
+.business-card .card-specialty {
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--ocean-teal);
+}
+
+.business-card .card-contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.business-card .card-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: color var(--transition-fast);
+}
+
+.business-card a.card-contact-item:hover {
+    color: var(--ocean-teal);
+}
+
+.business-card .card-contact-item svg {
+    color: var(--ocean-teal);
+    flex-shrink: 0;
+}
+
+.business-card .card-socials {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.business-card .social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--bg-color);
+    color: var(--ocean-teal);
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 10px rgba(18, 91, 80, 0.08);
+}
+
+.business-card .social-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.business-card .social-icon:hover {
+    background-color: var(--ocean-teal);
+    color: var(--surface-color);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(18, 91, 80, 0.2);
+}
+
+/* 8.2 3D SPOTLIGHT CARD (RIGHT SIDE) */
+.card-container-3d {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 380px;
+    perspective: 2000px;
+}
+
+.canvas-3d {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 36px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    transform-style: preserve-3d;
+    box-shadow: 0 30px 70px rgba(8, 61, 53, 0.25);
+    background: linear-gradient(135deg, var(--ocean-teal) 0%, var(--deep-palm) 100%);
+    border: 2px solid rgba(229, 176, 92, 0.25);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    overflow: hidden;
+}
+
+.canvas-3d::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(229, 176, 92, 0.18) 0%, transparent 60%),
+                radial-gradient(circle at 10% 80%, rgba(24, 154, 134, 0.2) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.tracker {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    cursor: pointer;
+}
+
+.tr-1  { grid-area: 1 / 1; }
+.tr-2  { grid-area: 1 / 2; }
+.tr-3  { grid-area: 1 / 3; }
+.tr-4  { grid-area: 1 / 4; }
+.tr-5  { grid-area: 1 / 5; }
+.tr-6  { grid-area: 2 / 1; }
+.tr-7  { grid-area: 2 / 2; }
+.tr-8  { grid-area: 2 / 3; }
+.tr-9  { grid-area: 2 / 4; }
+.tr-10 { grid-area: 2 / 5; }
+.tr-11 { grid-area: 3 / 1; }
+.tr-12 { grid-area: 3 / 2; }
+.tr-13 { grid-area: 3 / 3; }
+.tr-14 { grid-area: 3 / 4; }
+.tr-15 { grid-area: 3 / 5; }
+.tr-16 { grid-area: 4 / 1; }
+.tr-17 { grid-area: 4 / 2; }
+.tr-18 { grid-area: 4 / 3; }
+.tr-19 { grid-area: 4 / 4; }
+.tr-20 { grid-area: 4 / 5; }
+.tr-21 { grid-area: 5 / 1; }
+.tr-22 { grid-area: 5 / 2; }
+.tr-23 { grid-area: 5 / 3; }
+.tr-24 { grid-area: 5 / 4; }
+.tr-25 { grid-area: 5 / 5; }
+
+/* Rotations triggered on sibling canvas */
+.canvas-3d:has(.tr-1:hover)  { transform: rotateX(12deg) rotateY(-18deg); }
+.canvas-3d:has(.tr-2:hover)  { transform: rotateX(12deg) rotateY(-9deg); }
+.canvas-3d:has(.tr-3:hover)  { transform: rotateX(12deg) rotateY(0deg); }
+.canvas-3d:has(.tr-4:hover)  { transform: rotateX(12deg) rotateY(9deg); }
+.canvas-3d:has(.tr-5:hover)  { transform: rotateX(12deg) rotateY(18deg); }
+.canvas-3d:has(.tr-6:hover)  { transform: rotateX(6deg) rotateY(-18deg); }
+.canvas-3d:has(.tr-7:hover)  { transform: rotateX(6deg) rotateY(-9deg); }
+.canvas-3d:has(.tr-8:hover)  { transform: rotateX(6deg) rotateY(0deg); }
+.canvas-3d:has(.tr-9:hover)  { transform: rotateX(6deg) rotateY(9deg); }
+.canvas-3d:has(.tr-10:hover) { transform: rotateX(6deg) rotateY(18deg); }
+.canvas-3d:has(.tr-11:hover) { transform: rotateX(0deg) rotateY(-18deg); }
+.canvas-3d:has(.tr-12:hover) { transform: rotateX(0deg) rotateY(-9deg); }
+.canvas-3d:has(.tr-13:hover) { transform: rotateX(0deg) rotateY(0deg); }
+.canvas-3d:has(.tr-14:hover) { transform: rotateX(0deg) rotateY(9deg); }
+.canvas-3d:has(.tr-15:hover) { transform: rotateX(0deg) rotateY(18deg); }
+.canvas-3d:has(.tr-16:hover) { transform: rotateX(-6deg) rotateY(-18deg); }
+.canvas-3d:has(.tr-17:hover) { transform: rotateX(-6deg) rotateY(-9deg); }
+.canvas-3d:has(.tr-18:hover) { transform: rotateX(-6deg) rotateY(0deg); }
+.canvas-3d:has(.tr-19:hover) { transform: rotateX(-6deg) rotateY(9deg); }
+.canvas-3d:has(.tr-20:hover) { transform: rotateX(-6deg) rotateY(18deg); }
+.canvas-3d:has(.tr-21:hover) { transform: rotateX(-12deg) rotateY(-18deg); }
+.canvas-3d:has(.tr-22:hover) { transform: rotateX(-12deg) rotateY(-9deg); }
+.canvas-3d:has(.tr-23:hover) { transform: rotateX(-12deg) rotateY(0deg); }
+.canvas-3d:has(.tr-24:hover) { transform: rotateX(-12deg) rotateY(9deg); }
+.canvas-3d:has(.tr-25:hover) { transform: rotateX(-12deg) rotateY(18deg); }
+
+.card-content-3d {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    display: flex;
+    z-index: 5;
+    transform-style: preserve-3d;
+}
+
+.spotlight-split-layout {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+.spotlight-image-side {
+    width: 38%;
+    height: 100%;
+    position: relative;
+    border-right: 1px solid rgba(229, 176, 92, 0.15);
+    z-index: 1;
+    transform: translateZ(30px);
+    overflow: hidden;
+}
+
+.spotlight-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.spotlight-text-side {
+    width: 62%;
+    height: 100%;
+    padding: 36px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--surface-color);
+}
+
+.spotlight-badge {
+    align-self: flex-start;
+    background: var(--sun-accent);
+    color: var(--deep-palm);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 6px 16px;
+    border-radius: var(--border-radius-pill);
+    transform: translateZ(45px);
+    box-shadow: 0 4px 15px rgba(229, 176, 92, 0.3);
+}
+
+.card-title-3d {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--surface-color);
+    transform: translateZ(60px);
+    margin-top: 10px;
+    line-height: 1.25;
+}
+
+.card-description-3d {
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: #e2edea;
+    transform: translateZ(50px);
+    margin-top: 8px;
+    font-style: italic;
+}
+
+.card-description-3d .quote-author {
+    color: var(--sun-accent);
+    font-weight: 600;
+    font-style: normal;
+    display: inline-block;
+    margin-left: 6px;
+}
+
+.card-stats-row-3d {
+    display: flex;
+    gap: 30px;
+    margin-top: 15px;
+    transform: translateZ(55px);
+}
+
+.stat-box-3d {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number-3d {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--sun-accent);
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.stat-label-3d {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: rgba(248, 246, 240, 0.7);
+    font-weight: 600;
+}
+
+/* 8.3 FOOTER BOTTOM BAR */
+.footer-bottom-bar {
+    background-color: rgba(0, 0, 0, 0.15);
+    padding: 24px 0;
+    border-top: 1px solid rgba(248, 246, 240, 0.08);
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(248, 246, 240, 0.5);
+    text-align: center;
+}
+
+/* 8.4 RESPONSIVE FOOTER MEDIA QUERIES */
+@media (max-width: 900px) {
+    .footer-grid-container {
+        grid-template-columns: 1fr;
+        gap: 50px;
+        padding-bottom: 60px;
+    }
+    
+    .business-card {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .site-footer-green {
+        padding: 80px 0 0;
+    }
+    
+    .card-container-3d {
+        height: auto;
+        min-height: 480px;
+    }
+    
+    .spotlight-split-layout {
+        flex-direction: column;
+    }
+    
+    .spotlight-image-side {
+        width: 100%;
+        height: 180px;
+        border-right: none;
+        border-bottom: 1px solid rgba(229, 176, 92, 0.15);
+    }
+    
+    .spotlight-text-side {
+        width: 100%;
+        padding: 30px;
+        gap: 16px;
+    }
+    
+    .card-stats-row-3d {
+        gap: 20px;
+    }
+}
+
