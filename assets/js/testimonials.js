@@ -779,11 +779,17 @@ document.addEventListener("DOMContentLoaded", () => {
     initLeafScrollAnimation();
 
     // Dismiss preloader loading screen once loaded
+    const loadStartTime = Date.now();
     const hidePreloader = () => {
         const preloader = document.getElementById("preloader");
         if (preloader && !preloader.classList.contains("fade-out")) {
-            preloader.classList.add("fade-out");
-            setTimeout(() => preloader.remove(), 600);
+            const elapsed = Date.now() - loadStartTime;
+            const remainingDelay = Math.max(0, 1000 - elapsed);
+            
+            setTimeout(() => {
+                preloader.classList.add("fade-out");
+                setTimeout(() => preloader.remove(), 600);
+            }, remainingDelay);
         }
     };
     window.addEventListener("load", hidePreloader);
