@@ -119,6 +119,70 @@ function renderHero() {
 }
 
 /**
+ * Renders the Bio Accent Summary & Stats Bento (Mollie's Practice & Principles)
+ */
+function renderPrinciples() {
+    const mainContent = document.getElementById("main-content");
+    if (!mainContent) return;
+
+    const data = missionContent.principles;
+    if (!data) return;
+
+    // Create section
+    const section = document.createElement("section");
+    section.className = "bio-accent-section";
+
+    const container = document.createElement("div");
+    container.className = "container";
+
+    const grid = document.createElement("div");
+    grid.className = "bio-bento-grid";
+
+    // Text Card
+    const textCard = document.createElement("div");
+    textCard.className = "bio-card-text animate-slide-up delay-1";
+    
+    const h2 = document.createElement("h2");
+    h2.textContent = data.heading;
+    textCard.appendChild(h2);
+
+    data.paragraphs.forEach(pText => {
+        const p = document.createElement("p");
+        p.innerHTML = pText;
+        textCard.appendChild(p);
+    });
+
+    grid.appendChild(textCard);
+
+    // Stats bubbles
+    const statBubbles = document.createElement("div");
+    statBubbles.className = "stat-bubbles animate-slide-up delay-2";
+
+    data.stats.forEach(stat => {
+        const bubble = document.createElement("div");
+        bubble.className = "stat-bubble";
+        bubble.innerHTML = `
+            <div class="stat-bubble-number">${stat.number}</div>
+            <div class="stat-bubble-title">${stat.title}</div>
+            <div class="stat-bubble-desc">${stat.description}</div>
+        `;
+        statBubbles.appendChild(bubble);
+    });
+
+    grid.appendChild(statBubbles);
+    container.appendChild(grid);
+    section.appendChild(container);
+
+    // Insert principles section after the hero section (which is the first child of mainContent)
+    const heroSection = mainContent.querySelector(".mission-hero");
+    if (heroSection && heroSection.nextSibling) {
+        mainContent.insertBefore(section, heroSection.nextSibling);
+    } else {
+        mainContent.appendChild(section);
+    }
+}
+
+/**
  * Renders the specialties bento grid
  */
 function renderSpecialties() {
@@ -384,6 +448,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Inject dynamic layout sections
     renderNavigation();
     renderHero();
+    renderPrinciples();
     renderSpecialties();
     renderLeaves();
     renderFooter();

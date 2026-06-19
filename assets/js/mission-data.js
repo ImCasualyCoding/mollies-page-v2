@@ -27,6 +27,33 @@ const missionContent = {
         subtext: "Discover Mollie's evidence-based clinical specialties, post-rehab recoveries, and physical methodologies designed to safely restore movement confidence."
     },
 
+    // Mollie's Practice & Principles Configuration
+    principles: {
+        heading: "Mollie’s Practice & Principles",
+        paragraphs: [
+            "Under the <strong>MoveRx</strong> framework, I merge <strong>corrective exercise</strong> and <strong>post-rehab expertise</strong> with evidence-based programming. By collaborating closely with your healthcare providers, I ensure your transition from clinical care to functional recovery is seamless, precise, and completely safe.",
+            "With over six and a half years of active physical rehabilitation in South Florida, my practice is built around precision safety—designing customized movement plans for clients recovering from orthopedic surgeries, joint replacements, and neurological transitions.",
+            "<strong>\"Functional recovery is built on evidence-based movement. Through close medical collaboration, I provide the precise and safe training you need to move with absolute confidence.\"</strong> — Mollie Wittenkeller"
+        ],
+        stats: [
+            {
+                number: "6.5+ Yrs",
+                title: "Clinical Practice",
+                description: "Active rehabilitation training across South Florida's coastal communities."
+            },
+            {
+                number: "100%",
+                title: "Accredited Safety",
+                description: "Zero training injuries during recovery procedures. Extremely cautious care."
+            },
+            {
+                number: "2,500+",
+                title: "Therapy Hours",
+                description: "Of dedicated client contact, muscle sculpting, and mobility restoration."
+            }
+        ]
+    },
+
     // Specialties Bento Sections
     specialties: [
         {
