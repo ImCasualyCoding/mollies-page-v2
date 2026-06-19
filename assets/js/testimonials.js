@@ -17,7 +17,7 @@ const testimonialsContent = {
             link: "index.html"
         },
         links: [
-            { text: "Credentials", url: "credibility.html" },
+            { text: "The Mission", url: "the-mission.html" },
             { text: "Testimonials", url: "testimonials.html" }
         ],
         cta: {
@@ -28,8 +28,8 @@ const testimonialsContent = {
 
     // Hero Section Configuration
     hero: {
-        title: "Client Testimonials.",
-        subtext: "Hear directly from the individuals who have regained their strength, mobility, and independence through MoveRx's precise, evidence-based corrective exercise and functional recovery."
+        title: "Success & Client Testimonials.",
+        subtext: "See and hear from the people who have transformed their lives with MoveRx. Real stories of recovery, strength, and renewed vitality await you"
     },
 
     // Client Success Case Studies Configuration (4 Placeholders for the Fling Slider)
@@ -71,32 +71,7 @@ const testimonialsContent = {
     },
 
     // Client Testimonials Grid Data
-    testimonials: [
-        {
-            stars: 5,
-            quote: "Mollie has been my physical trainer for six and a half years, helping me quickly rebuild my endurance as a cancer survivor. She even helped me recover FULL range of movement in both shoulders after multiple doctors said nothing could be done! Her cautious, professional approach keeps me safe and injury-free. I’ve gained 25 pounds of solid muscle and feel like a completely new person.",
-            author: "John C.",
-            location: "Delray Beach, FL"
-        },
-        {
-            stars: 5,
-            quote: "After a traffic accident, I turned to Mollie. Suffering from arthritis and fibromyalgia, her customized rehab program provided relief that years of medication couldn’t. Beyond physical results, Mollie supports me with phenomenal courtesy, motivation, and an amazing work ethic. I even encouraged my husband to train with her, and she has done an equally wonderful job with him!",
-            author: "Cathy B.",
-            location: "Palm Beach, FL"
-        },
-        {
-            stars: 5,
-            quote: "As a 26-year veteran paramedic, lieutenant firefighter, and exercise physiologist, I can confidently say Mollie is an outstanding practitioner. She possesses premium training expertise, a stellar moral character, and a heart for service that elevates her clients' lives. She has my deep respect and highest possible recommendation.",
-            author: "Benjamin P.",
-            location: "Boynton Beach, FL"
-        },
-        {
-            stars: 5,
-            quote: "Having trained NFL players and college athletes for over ten years, I can state that Mollie’s physical rehabilitation and strength coaching knowledge is truly remarkable. She loves her craft, is exceptionally loyal, and connects deeply with people. She is a massive asset to anyone's recovery.",
-            author: "Coach Conroy W.",
-            location: "Zion Lutheran School"
-        }
-    ],
+    testimonials: clientTestimonials,
 
     // Leaves Scroll Offsets specifically tailored to this page's scroll height
     leaves: [
@@ -515,11 +490,26 @@ function renderTestimonialsGrid() {
     container.className = "container";
 
     const grid = document.createElement("div");
-    grid.className = "testimonials-grid";
+    grid.className = "testimonials-rows-container";
 
     testimonialsContent.testimonials.forEach((item, index) => {
         const card = document.createElement("div");
-        card.className = `testimonial-card animate-slide-up delay-${(index % 4) + 1}`;
+        const alignmentClass = index % 2 === 0 ? "row-normal" : "row-reverse";
+        card.className = `testimonial-row-card ${alignmentClass} animate-slide-up delay-${(index % 4) + 1}`;
+
+        // Circular Badge Side
+        const badgeSide = document.createElement("div");
+        badgeSide.className = "badge-side";
+        
+        const badgeCircle = document.createElement("div");
+        badgeCircle.className = "author-badge-circle";
+        badgeCircle.textContent = item.author;
+        badgeSide.appendChild(badgeCircle);
+        card.appendChild(badgeSide);
+
+        // Content Text Side
+        const contentSide = document.createElement("div");
+        contentSide.className = "content-side";
 
         // Stars Row
         const starsRow = document.createElement("div");
@@ -532,29 +522,32 @@ function renderTestimonialsGrid() {
                 </svg>
             `;
         }
-        card.appendChild(starsRow);
+        contentSide.appendChild(starsRow);
 
-        // Quote
+        // Quote text
         const quote = document.createElement("p");
         quote.className = "testimonial-quote";
         quote.textContent = item.quote;
-        card.appendChild(quote);
+        contentSide.appendChild(quote);
 
-        // Author Details
+        // Author metadata row
         const authorRow = document.createElement("div");
         authorRow.className = "testimonial-author";
 
         const name = document.createElement("span");
         name.className = "author-name";
-        name.textContent = item.author;
+        name.textContent = `Client ${item.author}`;
         authorRow.appendChild(name);
 
-        const detail = document.createElement("span");
-        detail.className = "author-detail";
-        detail.textContent = item.location;
-        authorRow.appendChild(detail);
+        if (item.location) {
+            const detail = document.createElement("span");
+            detail.className = "author-detail";
+            detail.textContent = item.location;
+            authorRow.appendChild(detail);
+        }
 
-        card.appendChild(authorRow);
+        contentSide.appendChild(authorRow);
+        card.appendChild(contentSide);
         grid.appendChild(card);
     });
 
@@ -725,7 +718,7 @@ function renderFooter() {
     spotlightContent.className = "card-content-3d spotlight-split-layout";
     spotlightContent.innerHTML = `
         <div class="spotlight-image-side">
-            <img src="assets/images/misc/placeholder-spotlight.svg" alt="Mollie MoveRx Mission Spotlight" class="spotlight-img">
+            <img src="assets/images/misc/spotlight-image.jpeg" alt="Mollie MoveRx Mission Spotlight" class="spotlight-img">
         </div>
         <div class="spotlight-text-side">
             <span class="spotlight-badge">Clinical Spotlight</span>
@@ -784,4 +777,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Initialize decorative animations
     initLeafScrollAnimation();
+
+    // Dismiss preloader loading screen once loaded
+    const hidePreloader = () => {
+        const preloader = document.getElementById("preloader");
+        if (preloader && !preloader.classList.contains("fade-out")) {
+            preloader.classList.add("fade-out");
+            setTimeout(() => preloader.remove(), 600);
+        }
+    };
+    window.addEventListener("load", hidePreloader);
+    setTimeout(hidePreloader, 3500); // 3.5s safety fallback
 });

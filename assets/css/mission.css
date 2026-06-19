@@ -1,0 +1,196 @@
+/* ==========================================================================
+   MoveRx The Mission Stylesheet (v2)
+   Description: Bento layout style definitions for Mollie's specialties,
+                including micro-animations and image hover effects.
+   ========================================================================== */
+
+/* 1. MISSION HERO SECTION */
+.mission-hero {
+    position: relative;
+    padding: 200px 0 100px;
+    text-align: center;
+    overflow: hidden;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mission-hero .hero-glow-teal {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: min(450px, 75vw);
+    height: min(450px, 75vw);
+    background: rgba(18, 91, 80, 0.12);
+    filter: blur(100px);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.mission-hero .hero-glow-gold {
+    position: absolute;
+    bottom: -10%;
+    right: -10%;
+    width: min(400px, 70vw);
+    height: min(400px, 70vw);
+    background: rgba(229, 176, 92, 0.12);
+    filter: blur(100px);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.mission-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    z-index: 2;
+}
+
+.mission-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 6vw, 68px);
+    line-height: 1.15;
+    font-weight: 700;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, var(--deep-palm) 0%, var(--ocean-teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.mission-hero .hero-subtext {
+    font-family: var(--font-body);
+    font-size: clamp(17px, 2.2vw, 20px);
+    line-height: 1.65;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+/* 2. SPECIALTIES BENTO GRID */
+.specialties-section {
+    position: relative;
+    padding: 20px 0 120px;
+    z-index: 2;
+}
+
+.specialties-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    max-width: 1050px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .specialties-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 48px;
+    }
+}
+
+.specialty-card {
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius-card);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+    border: 2px solid transparent;
+    transition: transform var(--transition-smooth), 
+                box-shadow var(--transition-smooth), 
+                border-color var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.specialty-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--ocean-teal);
+    box-shadow: 0 20px 45px rgba(18, 91, 80, 0.12);
+}
+
+.specialty-image-zone {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+}
+
+.specialty-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-smooth);
+}
+
+.specialty-card:hover .specialty-img {
+    transform: scale(1.05);
+}
+
+.specialty-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--sun-accent);
+    color: var(--deep-palm);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 6px 16px;
+    border-radius: var(--border-radius-pill);
+    box-shadow: 0 4px 15px rgba(229, 176, 92, 0.4);
+    z-index: 2;
+}
+
+.specialty-info {
+    padding: 40px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.specialty-title {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--deep-palm);
+    margin-bottom: 18px;
+    line-height: 1.25;
+}
+
+.specialty-description {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    white-space: pre-wrap;
+    font-weight: 400;
+}
+
+.nav-links a.active-link {
+    color: var(--ocean-teal) !important;
+}
+
+.nav-links a.active-link::after {
+    width: 100% !important;
+}
+
+/* 3. RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    .mission-hero {
+        padding: 160px 0 80px;
+    }
+    
+    .specialty-info {
+        padding: 30px;
+    }
+    
+    .specialty-image-zone {
+        height: 200px;
+    }
+}

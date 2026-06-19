@@ -17,7 +17,7 @@ const websiteContent = {
             link: "index.html"
         },
         links: [
-            { text: "Credentials", url: "credibility.html" },
+            { text: "The Mission", url: "the-mission.html" },
             { text: "Testimonials", url: "testimonials.html" }
         ],
         cta: {
@@ -35,7 +35,7 @@ const websiteContent = {
         imageAlt: "Mollie's brother wading in beach ocean waves during corrective physical mobility therapy",
         ctas: [
             { text: "Start Your Journey", url: "#contact", primary: true },
-            { text: "Learn about Mollie", url: "credibility.html", primary: false }
+            { text: "The Mission", url: "the-mission.html", primary: false }
         ]
     },
 
@@ -102,6 +102,50 @@ const websiteContent = {
             type: "leaf-right",
             svgType: "fern",
             initialTop: 1850 // Fern leaf sits near footer transition
+        }
+    ],
+
+    // Verified Credentials & Certifications list
+    credentials: [
+        {
+            title: "Corrective Exercise Specialist",
+            organization: "International Sports Sciences Association (ISSA)",
+            filePath: "assets/certs/Corrective_Exercise_Specialist.jpg"
+        },
+        {
+            title: "Post-Rehabilitation & Special Populations Specialist",
+            organization: "Fitness Institute International",
+            filePath: "assets/certs/Special_Populations_Post_Rehabilitation_Specialist.jpg"
+        },
+        {
+            title: "Functional Fitness Trainer",
+            organization: "American Sports & Fitness Association (ASFA)",
+            filePath: "assets/certs/Functional_Fitness_Trainer.jpg"
+        },
+        {
+            title: "Strength & Conditioning Specialist",
+            organization: "Fitness Institute International",
+            filePath: "assets/certs/Strength_Conditioning_Specialist.jpg"
+        },
+        {
+            title: "Fitness Testing Specialist",
+            organization: "Fitness Institute International",
+            filePath: "assets/certs/Fitness_Testing_Specialist.jpg"
+        },
+        {
+            title: "Weight Management Specialist & Nutrition Educator",
+            organization: "Fitness Institute International",
+            filePath: "assets/certs/Weight_Management_Specialist_Nutrition_Educator.jpg"
+        },
+        {
+            title: "Advanced Senior Fitness Instructor",
+            organization: "American Sports & Fitness Association (ASFA)",
+            filePath: "assets/certs/Advanced_Senior_Fitness_Instructor.jpg"
+        },
+        {
+            title: "CPR / AED & First Aid",
+            organization: "MyCPR NOW",
+            filePath: "assets/certs/CPR_AED_First_Aid_Certified.jpg"
         }
     ],
 
@@ -742,7 +786,7 @@ function renderFooter() {
     spotlightContent.className = "card-content-3d spotlight-split-layout";
     spotlightContent.innerHTML = `
         <div class="spotlight-image-side">
-            <img src="assets/images/misc/placeholder-spotlight.svg" alt="Mollie MoveRx Mission Spotlight" class="spotlight-img">
+            <img src="assets/images/misc/spotlight-image.jpeg" alt="Mollie MoveRx Mission Spotlight" class="spotlight-img">
         </div>
         <div class="spotlight-text-side">
             <span class="spotlight-badge">Clinical Spotlight</span>
@@ -788,6 +832,192 @@ function renderFooter() {
     mainContent.appendChild(footer);
 }
 
+/**
+ * Renders the Credentials and Board Certifications Section inside #main-content
+ */
+function renderCredentials() {
+    const mainContent = document.getElementById("main-content");
+    if (!mainContent) {
+        console.error("Main content mount container '#main-content' not found.");
+        return;
+    }
+
+    const certsData = websiteContent.credentials;
+    if (!certsData || certsData.length === 0) return;
+
+    // 1. Create section container
+    const section = document.createElement("section");
+    section.className = "credentials-section";
+    section.id = "credentials";
+
+    // 2. Create inner container
+    const container = document.createElement("div");
+    container.className = "container";
+
+    // 3. Section Header
+    const sectionHeader = document.createElement("div");
+    sectionHeader.className = "section-header animate-fade-in";
+    sectionHeader.innerHTML = `
+        <span class="pill-badge" style="background-color: var(--sun-accent); color: var(--text-primary); margin-bottom: 12px; font-size: 10px; font-weight: 700; box-shadow: none;">Verified Qualifications</span>
+        <h2>Board Certifications & Credentials</h2>
+        <p class="section-subtext">Click on any credential plaque below to view the official scanned course certificate.</p>
+    `;
+    container.appendChild(sectionHeader);
+
+    // 4. Grid wrapper
+    const grid = document.createElement("div");
+    grid.className = "credentials-grid";
+
+    // 5. Generate cards
+    certsData.forEach((cert, index) => {
+        const card = document.createElement("div");
+        card.className = "cert-card animate-fade-in";
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("role", "button");
+        card.setAttribute("aria-label", `View details of ${cert.title} certified by ${cert.organization}`);
+        
+        card.innerHTML = `
+            <div class="cert-visual-zone">
+                <div class="loading-overlay-spinner">
+                    <div class="spinner"></div>
+                </div>
+                <img src="${cert.filePath}" class="cert-img-preview" alt="Scan preview of ${cert.title}" loading="lazy">
+            </div>
+            <h3 class="cert-card-title">${cert.title}</h3>
+            <div class="cert-card-org">${cert.organization}</div>
+        `;
+
+        // Handle image loading events to dismiss loading spinner
+        const img = card.querySelector(".cert-img-preview");
+        if (img) {
+            if (img.complete) {
+                const spinner = card.querySelector(".loading-overlay-spinner");
+                if (spinner) spinner.remove();
+            } else {
+                img.onload = () => {
+                    const spinner = card.querySelector(".loading-overlay-spinner");
+                    if (spinner) spinner.remove();
+                };
+                img.onerror = () => {
+                    const spinner = card.querySelector(".loading-overlay-spinner");
+                    if (spinner) spinner.remove();
+                    const visualZone = card.querySelector(".cert-visual-zone");
+                    if (visualZone) {
+                        visualZone.innerHTML = `<span style="font-size: 12px; font-weight: 500; color: var(--text-secondary); text-align: center; padding: 16px;">Preview unavailable</span>`;
+                    }
+                };
+            }
+        }
+
+        // Click interaction to open modal
+        const openCertModal = () => {
+            setupModal(cert);
+        };
+        
+        card.addEventListener("click", openCertModal);
+        card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                openCertModal();
+            }
+        });
+
+        grid.appendChild(card);
+    });
+
+    container.appendChild(grid);
+    section.appendChild(container);
+    mainContent.appendChild(section);
+}
+
+/**
+ * Setup and display the certificate details inside the lightbox modal
+ */
+function setupModal(cert) {
+    const modal = document.getElementById("cert-modal");
+    const mTitle = document.getElementById("m-title");
+    const mOrg = document.getElementById("m-org");
+    const mediaWrapper = document.getElementById("modal-media-wrapper");
+    const downloadContainer = document.getElementById("modal-download-container");
+
+    if (!modal || !mTitle || !mOrg || !mediaWrapper || !downloadContainer) {
+        console.error("Modal elements missing in the DOM.");
+        return;
+    }
+
+    // Set textual details
+    mTitle.textContent = cert.title;
+    mOrg.textContent = cert.organization;
+
+    // Show loading spinner
+    mediaWrapper.innerHTML = `
+        <div class="loading-overlay-spinner">
+            <div class="spinner"></div>
+        </div>
+    `;
+
+    // Render full scale image scan
+    const img = document.createElement("img");
+    img.src = cert.filePath;
+    img.alt = `${cert.title} scanned document`;
+    img.onload = () => {
+        const spinner = mediaWrapper.querySelector(".loading-overlay-spinner");
+        if (spinner) spinner.remove();
+    };
+    img.onerror = () => {
+        mediaWrapper.innerHTML = `<span style="font-size: 14px; font-weight: 500; color: var(--text-primary);">Document scan unavailable</span>`;
+    };
+    mediaWrapper.appendChild(img);
+
+    // Setup download button
+    downloadContainer.innerHTML = `
+        <a href="${cert.filePath}" download class="modal-ctrl-btn" aria-label="Download ${cert.title} certificate scan image">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Download Scan
+        </a>
+    `;
+
+    // Activate modal overlay and lock page scrolling
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+/**
+ * Initialize closing interactions for the certificate modal
+ */
+function initModalCloseHandlers() {
+    const modal = document.getElementById("cert-modal");
+    const closeBtn = document.getElementById("modal-close");
+
+    if (!modal || !closeBtn) return;
+
+    const closeModal = () => {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+        
+        // Clear media wrapper to free memory
+        const mediaWrapper = document.getElementById("modal-media-wrapper");
+        if (mediaWrapper) mediaWrapper.innerHTML = "";
+    };
+
+    closeBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("active")) {
+            closeModal();
+        }
+    });
+}
+
 /* 4. APP INITIALIZATION
    ========================================================================== */
 document.addEventListener("DOMContentLoaded", () => {
@@ -795,9 +1025,22 @@ document.addEventListener("DOMContentLoaded", () => {
     renderNavigation();
     renderHero();
     renderSuccessStories();
+    renderCredentials();
     renderLeaves();
     renderFooter();
 
     // Bind event animations
     initLeafScrollAnimation();
+    initModalCloseHandlers();
+
+    // Dismiss preloader loading screen once loaded
+    const hidePreloader = () => {
+        const preloader = document.getElementById("preloader");
+        if (preloader && !preloader.classList.contains("fade-out")) {
+            preloader.classList.add("fade-out");
+            setTimeout(() => preloader.remove(), 600);
+        }
+    };
+    window.addEventListener("load", hidePreloader);
+    setTimeout(hidePreloader, 3500); // 3.5s safety fallback
 });
