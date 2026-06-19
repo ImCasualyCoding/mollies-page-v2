@@ -201,23 +201,14 @@
 .bio-accent-section {
     padding: 30px 0 70px;
 }
-.bio-bento-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 40px;
-    align-items: center;
-}
-@media(max-width: 900px) {
-    .bio-bento-grid {
-        grid-template-columns: 1fr;
-    }
-}
 .bio-card-text {
     background: var(--surface-color);
     padding: 48px;
     border-radius: 32px;
     box-shadow: 0 10px 40px rgba(18, 91, 80, 0.05);
     border: 1px solid rgba(18, 91, 80, 0.05);
+    max-width: 860px;
+    margin: 0 auto;
 }
 .bio-card-text h2 {
     font-family: var(--font-display);
@@ -236,50 +227,22 @@
     font-weight: 600;
 }
 
-.stat-bubbles {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-.stat-bubble {
-    background: var(--text-primary);
-    color: var(--bg-color);
-    padding: 30px;
-    border-radius: 24px;
-    box-shadow: 0 12px 30px rgba(8, 61, 53, 0.15);
-    border: 1px solid rgba(229, 176, 92, 0.2);
-    transition: transform 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-.stat-bubble::after {
-    content: '';
-    position: absolute;
-    top: 0; right: 0;
-    width: 100px; height: 100px;
-    background: radial-gradient(circle, rgba(229, 176, 92, 0.1) 0%, transparent 70%);
-    pointer-events: none;
-}
-.stat-bubble:hover {
-    transform: translateY(-4px);
-}
-.stat-bubble-number {
-    font-family: var(--font-display);
-    font-size: 42px;
-    font-weight: 700;
-    color: var(--sun-accent);
-    line-height: 1;
-    margin-bottom: 8px;
-}
-.stat-bubble-title {
-    font-size: 15px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: rgba(248, 246, 240, 0.8);
-    font-weight: 600;
-}
-.stat-bubble-desc {
-    font-size: 14px;
-    color: rgba(248, 246, 240, 0.65);
-    margin-top: 6px;
+/* Mobile responsive adjustments for Bio Accent Section */
+@media (max-width: 600px) {
+    .bio-accent-section {
+        padding: 20px 0 50px;
+    }
+    .bio-card-text {
+        padding: 32px 24px;
+        border-radius: 24px;
+    }
+    .bio-card-text h2 {
+        font-size: 28px;
+        margin-bottom: 16px;
+    }
+    .bio-card-text p {
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 16px;
+    }
 }

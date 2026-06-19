@@ -24,7 +24,10 @@ function renderNavigation() {
     const logo = document.createElement("a");
     logo.href = missionContent.navigation.logo.link;
     logo.className = "logo";
-    logo.innerHTML = `<span>${missionContent.navigation.logo.textHighlight}</span>${missionContent.navigation.logo.textRegular}`;
+    logo.ariaLabel = `${missionContent.navigation.logo.textHighlight}${missionContent.navigation.logo.textRegular} Home`;
+    logo.innerHTML = `
+        <span class="logo-move">${missionContent.navigation.logo.textHighlight}</span><span class="logo-rx">${missionContent.navigation.logo.textRegular}</span>
+    `;
     navPill.appendChild(logo);
 
     // Mobile menu toggle checkbox + label
@@ -119,7 +122,7 @@ function renderHero() {
 }
 
 /**
- * Renders the Bio Accent Summary & Stats Bento (Mollie's Practice & Principles)
+ * Renders the Bio Accent Summary (Mollie's Practice & Principles)
  */
 function renderPrinciples() {
     const mainContent = document.getElementById("main-content");
@@ -135,9 +138,6 @@ function renderPrinciples() {
     const container = document.createElement("div");
     container.className = "container";
 
-    const grid = document.createElement("div");
-    grid.className = "bio-bento-grid";
-
     // Text Card
     const textCard = document.createElement("div");
     textCard.className = "bio-card-text animate-slide-up delay-1";
@@ -152,25 +152,7 @@ function renderPrinciples() {
         textCard.appendChild(p);
     });
 
-    grid.appendChild(textCard);
-
-    // Stats bubbles
-    const statBubbles = document.createElement("div");
-    statBubbles.className = "stat-bubbles animate-slide-up delay-2";
-
-    data.stats.forEach(stat => {
-        const bubble = document.createElement("div");
-        bubble.className = "stat-bubble";
-        bubble.innerHTML = `
-            <div class="stat-bubble-number">${stat.number}</div>
-            <div class="stat-bubble-title">${stat.title}</div>
-            <div class="stat-bubble-desc">${stat.description}</div>
-        `;
-        statBubbles.appendChild(bubble);
-    });
-
-    grid.appendChild(statBubbles);
-    container.appendChild(grid);
+    container.appendChild(textCard);
     section.appendChild(container);
 
     // Insert principles section after the hero section (which is the first child of mainContent)
@@ -332,12 +314,14 @@ function renderFooter() {
     const businessCard = document.createElement("div");
     businessCard.className = "business-card";
     businessCard.innerHTML = `
-        <div class="card-brand">
-            <span class="card-logo">MoveRx</span>
-            <span class="card-tagline">Precision Mobility & Recovery</span>
+        <div class="card-logo">
+            <span class="logo-move">Move</span><span class="logo-rx">Rx</span>
         </div>
-        <p class="card-quote">“Every movement is a stepping stone toward physical freedom. Let's reclaim your strength, safely and cautiously.”</p>
-        <div class="card-contacts">
+        <div class="card-title-group">
+            <h3>Mollie W.</h3>
+            <p class="card-specialty">Corrective Exercise Specialist & Movement Scientist</p>
+        </div>
+        <div class="card-contact-info">
             <a href="tel:+15551234567" class="card-contact-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
