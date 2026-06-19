@@ -392,6 +392,36 @@ function renderHero() {
 
 let currentStoryIndex = 0;
 let isFlinging = false;
+let isCertModalOpen = false;
+let marqueePauseTimer = null;
+
+/**
+ * Pause the automated credentials marquee loop
+ */
+function pauseMarquee() {
+    const marqueeInner = document.getElementById("marquee-inner");
+    if (marqueeInner) {
+        marqueeInner.classList.add("paused");
+    }
+    if (marqueePauseTimer) {
+        clearTimeout(marqueePauseTimer);
+        marqueePauseTimer = null;
+    }
+}
+
+/**
+ * Resume the automated credentials marquee loop after a 1-second delay
+ */
+function resumeMarquee() {
+    if (isCertModalOpen) return; // Keep paused while modal is active
+    const marqueeInner = document.getElementById("marquee-inner");
+    if (!marqueeInner) return;
+
+    if (marqueePauseTimer) clearTimeout(marqueePauseTimer);
+    marqueePauseTimer = setTimeout(() => {
+        marqueeInner.classList.remove("paused");
+    }, 1000);
+}
 
 /**
  * Renders the Centered Dynamic Fling Success Stories Section inside #main-content
@@ -863,72 +893,102 @@ function renderCredentials() {
         <p class="section-subtext">Click on any credential plaque below to view the official scanned course certificate.</p>
     `;
     container.appendChild(sectionHeader);
+    section.appendChild(container);
 
-    // 4. Grid wrapper
-    const grid = document.createElement("div");
-    grid.className = "credentials-grid";
+    // 4. Marquee structures
+    const marqueeContainer = document.createElement("div");
+    marqueeContainer.className = "marquee-container animate-fade-in";
+
+    const marqueeInner = document.createElement("div");
+    marqueeInner.className = "marquee__inner";
+    marqueeInner.id = "marquee-inner";
+
+    const group1 = document.createElement("div");
+    group1.className = "marquee__group";
+    group1.id = "marquee-group-1";
+
+    const group2 = document.createElement("div");
+    group2.className = "marquee__group";
+    group2.id = "marquee-group-2";
+
+    marqueeInner.appendChild(group1);
+    marqueeInner.appendChild(group2);
+    marqueeContainer.appendChild(marqueeInner);
+    section.appendChild(marqueeContainer);
 
     // 5. Generate cards
     certsData.forEach((cert, index) => {
-        const card = document.createElement("div");
-        card.className = "cert-card animate-fade-in";
-        card.setAttribute("tabindex", "0");
-        card.setAttribute("role", "button");
-        card.setAttribute("aria-label", `View details of ${cert.title} certified by ${cert.organization}`);
-        
-        card.innerHTML = `
-            <div class="cert-visual-zone">
-                <div class="loading-overlay-spinner">
-                    <div class="spinner"></div>
+        const cardHTML = `
+            <div class="cert-card" tabindex="0" role="button" data-index="${index}" aria-label="View details of ${cert.title} certified by ${cert.organization}">
+                <div class="cert-visual-zone">
+                    <div class="loading-overlay-spinner" id="spinner-${index}">
+                        <div class="spinner"></div>
+                    </div>
+                    <img src="${cert.filePath}" class="cert-img-preview" alt="Scan preview of ${cert.title}" loading="lazy" onload="window.handleCertImageLoad(this, ${index})" onerror="window.handleCertImageError(this, ${index})">
                 </div>
-                <img src="${cert.filePath}" class="cert-img-preview" alt="Scan preview of ${cert.title}" loading="lazy">
+                <h3 class="cert-card-title">${cert.title}</h3>
+                <div class="cert-card-org">${cert.organization}</div>
             </div>
-            <h3 class="cert-card-title">${cert.title}</h3>
-            <div class="cert-card-org">${cert.organization}</div>
         `;
-
-        // Handle image loading events to dismiss loading spinner
-        const img = card.querySelector(".cert-img-preview");
-        if (img) {
-            if (img.complete) {
-                const spinner = card.querySelector(".loading-overlay-spinner");
-                if (spinner) spinner.remove();
-            } else {
-                img.onload = () => {
-                    const spinner = card.querySelector(".loading-overlay-spinner");
-                    if (spinner) spinner.remove();
-                };
-                img.onerror = () => {
-                    const spinner = card.querySelector(".loading-overlay-spinner");
-                    if (spinner) spinner.remove();
-                    const visualZone = card.querySelector(".cert-visual-zone");
-                    if (visualZone) {
-                        visualZone.innerHTML = `<span style="font-size: 12px; font-weight: 500; color: var(--text-secondary); text-align: center; padding: 16px;">Preview unavailable</span>`;
-                    }
-                };
-            }
-        }
-
-        // Click interaction to open modal
-        const openCertModal = () => {
-            setupModal(cert);
-        };
-        
-        card.addEventListener("click", openCertModal);
-        card.addEventListener("keydown", (e) => {
-            if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                openCertModal();
-            }
-        });
-
-        grid.appendChild(card);
+        group1.insertAdjacentHTML('beforeend', cardHTML);
+        group2.insertAdjacentHTML('beforeend', cardHTML);
     });
 
-    container.appendChild(grid);
-    section.appendChild(container);
     mainContent.appendChild(section);
+
+    // 6. Marquee Interaction Event Listeners
+    marqueeContainer.addEventListener("mouseenter", pauseMarquee);
+    marqueeContainer.addEventListener("mouseleave", resumeMarquee);
+    marqueeContainer.addEventListener("touchstart", pauseMarquee, { passive: true });
+    marqueeContainer.addEventListener("touchend", resumeMarquee);
+    marqueeContainer.addEventListener("touchcancel", resumeMarquee);
+    marqueeContainer.addEventListener("focusin", pauseMarquee);
+    marqueeContainer.addEventListener("focusout", resumeMarquee);
+
+    // 7. Click & keydown delegation
+    marqueeInner.addEventListener("click", (e) => {
+        const card = e.target.closest(".cert-card");
+        if (card) {
+            const index = parseInt(card.getAttribute("data-index"), 10);
+            const cert = certsData[index];
+            if (cert) {
+                setupModal(cert);
+            }
+        }
+    });
+
+    marqueeInner.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+            const card = e.target.closest(".cert-card");
+            if (card) {
+                e.preventDefault();
+                const index = parseInt(card.getAttribute("data-index"), 10);
+                const cert = certsData[index];
+                if (cert) {
+                    setupModal(cert);
+                }
+            }
+        }
+    });
 }
+
+// Global image load helper definitions attached to window for onload triggers
+window.handleCertImageLoad = function(img, index) {
+    const spinners = document.querySelectorAll(`[id="spinner-${index}"]`);
+    spinners.forEach(s => s.remove());
+};
+
+window.handleCertImageError = function(img, index) {
+    const spinners = document.querySelectorAll(`[id="spinner-${index}"]`);
+    spinners.forEach(s => s.remove());
+    const cards = document.querySelectorAll(`.cert-card[data-index="${index}"]`);
+    cards.forEach(c => {
+        const visualZone = c.querySelector(".cert-visual-zone");
+        if (visualZone) {
+            visualZone.innerHTML = `<span style="font-size: 12px; font-weight: 500; color: var(--text-secondary); text-align: center; padding: 16px;">Preview unavailable</span>`;
+        }
+    });
+};
 
 /**
  * Setup and display the certificate details inside the lightbox modal
@@ -984,6 +1044,10 @@ function setupModal(cert) {
     // Activate modal overlay and lock page scrolling
     modal.classList.add("active");
     document.body.style.overflow = "hidden";
+
+    // Coordination with marquee
+    isCertModalOpen = true;
+    pauseMarquee();
 }
 
 /**
@@ -1002,6 +1066,10 @@ function initModalCloseHandlers() {
         // Clear media wrapper to free memory
         const mediaWrapper = document.getElementById("modal-media-wrapper");
         if (mediaWrapper) mediaWrapper.innerHTML = "";
+
+        // Coordination with marquee
+        isCertModalOpen = false;
+        resumeMarquee();
     };
 
     closeBtn.addEventListener("click", closeModal);

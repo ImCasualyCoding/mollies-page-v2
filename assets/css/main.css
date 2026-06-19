@@ -1320,7 +1320,7 @@ button:focus-visible {
 }
 
 /* ==========================================================================
-   9. CREDENTIALS GRID & MODAL DISPLAY (PDF.JS LIGHTBOX)
+   9. CREDENTIALS MARQUEE SECTION (AUTOMATED INFINITE SCROLL)
    ========================================================================== */
 
 .credentials-section {
@@ -1330,52 +1330,73 @@ button:focus-visible {
     z-index: 2;
 }
 
-.credentials-grid {
-    display: grid;
-    grid-template-columns: 1fr;
+.marquee-container {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    padding: 24px 0;
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 10%,
+        black 90%,
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 10%,
+        black 90%,
+        transparent 100%
+    );
+}
+
+.marquee__inner {
+    display: flex;
+    width: max-content;
+    animation: marquee 25s linear infinite;
+}
+
+/* Paused state on hover/touch */
+.marquee__inner.paused {
+    animation-play-state: paused;
+}
+
+.marquee__group {
+    display: flex;
     gap: 28px;
-    margin-top: 48px;
-}
-
-@media (min-width: 576px) {
-    .credentials-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (min-width: 992px) {
-    .credentials-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
+    padding-right: 28px; /* Match the gap spacing to ensure seamless loops */
 }
 
 .cert-card {
-    background-color: var(--surface-color);
-    border-radius: var(--border-radius-card);
-    padding: 24px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.02);
-    border: 2px solid transparent;
+    background-color: #141414;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     transition: transform var(--transition-smooth), 
                 box-shadow var(--transition-smooth), 
                 border-color var(--transition-smooth);
     display: flex;
     flex-direction: column;
-    height: 100%;
+    width: 300px;
+    flex-shrink: 0;
     cursor: pointer;
+    text-align: left;
 }
 
 .cert-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--ocean-teal);
-    box-shadow: 0 15px 35px rgba(18, 91, 80, 0.10);
+    transform: translateY(-6px);
+    border-color: var(--sun-accent);
+    box-shadow: 0 16px 36px rgba(229, 176, 92, 0.18);
 }
 
 .cert-visual-zone {
     width: 100%;
     aspect-ratio: 1.4;
-    background: #ffffff;
-    border: 1px solid rgba(18, 91, 80, 0.08);
-    border-radius: var(--border-radius-button);
+    background: #1d1d1d;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
     overflow: hidden;
     position: relative;
     display: flex;
@@ -1392,19 +1413,48 @@ button:focus-visible {
 }
 
 .cert-card-title {
-    font-family: var(--font-display);
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--deep-palm);
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
     line-height: 1.35;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 44px;
 }
 
 .cert-card-org {
+    font-family: var(--font-body);
     font-size: 13px;
-    color: var(--text-secondary);
+    color: #b0b0b0;
     font-weight: 500;
+}
+
+@media (max-width: 600px) {
+    .marquee__group .cert-card {
+        width: 250px;
+    }
+    .cert-visual-zone {
+        margin-bottom: 12px;
+    }
+    .cert-card-title {
+        font-size: 15px;
+        min-height: 40px;
+    }
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 /* LIGHTBOX MODAL OVERLAY */
